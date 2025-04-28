@@ -15,6 +15,7 @@
 	"devDependencies": {
 		"@babel/preset-env": "^7.23.8",
 		"@babel/preset-typescript": "^7.23.3",
+		"@types/bcrypt": "^5.0.2",
 		"@woovi-playground/eslint-config-custom": "*",
 		"autoprefixer": "^10.4.16",
 		"babel-plugin-transform-barrels": "^1.0.10",
@@ -24,5 +25,13 @@
 		"prettier": "^3.1.0",
 		"turbo": "latest"
 	},
-	"packageManager": "pnpm@10.0.0"
+	"packageManager": "pnpm@10.0.0",
+	"dependencies": {
+		"@koa/router": "^13.1.0",
+		"@types/mongoose": "^5.11.96",
+		"bcryptjs": "^3.0.2",
+		"koa-bodyparser": "^4.4.1",
+		"mongoose": "^8.14.0",
+		"zod": "^3.24.3"
+	}
 }
