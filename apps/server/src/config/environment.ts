@@ -6,6 +6,7 @@ const environment_schema = z.object({
   MONGO_DB_NAME: z.string(),
   MONGO_URI: z.string(),
   HASH_SALT: z.coerce.number().default(12),
+  JWT_KEY: z.string(),
 });
 
 const _env = environment_schema.safeParse(process.env);

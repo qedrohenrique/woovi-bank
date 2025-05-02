@@ -30,6 +30,7 @@
 		"@koa/router": "^13.1.0",
 		"@types/mongoose": "^5.11.96",
 		"bcryptjs": "^3.0.2",
+		"jsonwebtoken": "^9.0.2",
 		"koa-bodyparser": "^4.4.1",
 		"mongoose": "^8.14.0",
 		"zod": "^3.24.3"

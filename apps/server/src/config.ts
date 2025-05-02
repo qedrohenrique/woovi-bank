@@ -19,6 +19,7 @@ const config = {
 	MONGO_URI: ENV.MONGO_URI ?? '',
 	MONGO_DB_NAME: ENV.MONGO_DB_NAME ?? '',
 	HASH_SALT: ENV.HASH_SALT ?? 10,
+	JWT_KEY: ENV.JWT_KEY ?? '',
 };
 
 export { config };
