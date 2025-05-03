@@ -1,9 +1,11 @@
 import mongoose, { Document } from "mongoose";
-import { UserDocument } from "../../user/UserModel";
+import { UserDocument } from "../user/UserModel";
+
 export type Account = {
   user: UserDocument;
   balance: number;
   updatedAt: Date;
+  createdAt: Date;
 } & Document;
 
 export type AccountDocument = Document & Account;

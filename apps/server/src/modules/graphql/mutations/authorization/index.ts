@@ -1,4 +1,4 @@
-import { LoginMutation } from "./auth-mutations";
+import { LoginMutation } from "./authorization";
 
 export const AuthMutations = {
   LoginMutation,

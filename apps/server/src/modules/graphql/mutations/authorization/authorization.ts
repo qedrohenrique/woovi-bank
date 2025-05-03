@@ -10,7 +10,7 @@ export type LoginMutationInput = {
   password: string;
 };
 
-export const LoginMutation = mutationWithClientMutationId({
+const LoginMutation = mutationWithClientMutationId({
   name: "LoginMutation",
   inputFields: {
     email: { type: new GraphQLNonNull(GraphQLString) },
@@ -31,3 +31,5 @@ export const LoginMutation = mutationWithClientMutationId({
     return { token };
   },
 });
+
+export { LoginMutation };
