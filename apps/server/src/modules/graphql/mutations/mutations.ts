@@ -1,5 +1,5 @@
 import { GraphQLObjectType } from "graphql";
-import { AuthMutations } from "./auth-mutations";
+import { AuthMutations } from "./authorization";
 
 export const Mutation = new GraphQLObjectType({
   name: "Mutation",

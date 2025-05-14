@@ -7,6 +7,11 @@ export type User = {
   password: string;
   email: string;
   cpf: string;
+
+  isEmailVerified: boolean;
+  emailVerificationToken: string;
+  emailVerificationTokenExpiresAt: Date;
+  
   createdAt: Date;
   updatedAt: Date;
 
@@ -39,6 +44,18 @@ const UserSchema = new mongoose.Schema<User>(
       type: String,
       unique: true,
       required: true,
+    },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    emailVerificationToken: {
+      type: String,
+      default: null,
+    },
+    emailVerificationTokenExpiresAt: {
+      type: Date,
+      default: null,
     },
   },
   {

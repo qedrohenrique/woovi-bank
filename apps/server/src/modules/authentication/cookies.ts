@@ -1,5 +1,5 @@
 import { Context, ParameterizedContext } from "koa";
-import { UserModel } from "../entities/user/UserModel";
+import { UserModel } from "../entities/user/user-model";
 import { env } from "../../config/environment";
 import jwt from "jsonwebtoken";
 

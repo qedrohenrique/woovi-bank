@@ -1,4 +1,4 @@
-import { UserModel } from "../modules/entities/user/UserModel";
+import { UserModel } from "../modules/entities/user/user-model";
 import { CreateUserBody } from "./types";
 import { env } from "../config/environment";
 import { sign } from "jsonwebtoken";

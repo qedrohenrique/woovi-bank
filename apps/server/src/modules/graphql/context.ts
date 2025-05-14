@@ -1,4 +1,4 @@
-import { UserDocument } from "../entities/user/UserModel";
+import { UserDocument } from "../entities/user/user-model";
 import { ParameterizedContext } from "koa";
 import { getDataloaders } from "../loaders/loaderRegister";
 

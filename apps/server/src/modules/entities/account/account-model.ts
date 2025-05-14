@@ -1,5 +1,5 @@
 import mongoose, { Document } from "mongoose";
-import { UserDocument } from "../user/UserModel";
+import { UserDocument } from "../user/user-model";
 
 export type Account = {
   user: UserDocument;
