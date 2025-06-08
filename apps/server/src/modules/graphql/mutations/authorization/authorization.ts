@@ -7,6 +7,8 @@ import { NotFoundException } from "../../../common/errors/not-found-exception";
 import { UnauthorizedException } from "../../../common/errors/unauthorized-exception";
 import { addHours } from "../../../common/utils/time";
 import { UserModel } from "../../../entities/user/user-model";
+import { sendEmail } from "../../../common/utils/mailer/mailer";
+import { UserConfirmationTemplate } from "../../../common/utils/mailer/templates/account-confirmation";
 
 export type LoginMutationInput = {
   email: string;
@@ -61,6 +63,14 @@ const SendEmailVerificationMutation = mutationWithClientMutationId({
         emailVerificationToken: token,
         emailVerificationTokenExpiresAt: addHours(new Date(), 1),
       },
+    });
+
+    await sendEmail({
+      to: email,
+      subject: "Confirme seu usuário na Bank",
+      template: UserConfirmationTemplate,
+      token,
+      linkUri: `${env.FRONTEND_URL}/confirm-email`,
     });
 
 

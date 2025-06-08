@@ -14,6 +14,7 @@ dotenvSafe.config({
 const ENV = process.env;
 
 const config = {
+	FRONTEND_URL: ENV.FRONTEND_URL ?? '',
 	PORT: ENV.PORT ?? 4000,
 	MONGO_FULL_URI: ENV.MONGO_FULL_URI ?? '',
 	MONGO_URI: ENV.MONGO_URI ?? '',

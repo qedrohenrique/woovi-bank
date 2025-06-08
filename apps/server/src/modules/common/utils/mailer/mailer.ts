@@ -1,6 +1,5 @@
 import { Resend } from "resend";
 import { env } from "../../../../config/environment";
-import { randomUUID } from "node:crypto";
 
 type TemplateEmailProps = {
   email: string;
@@ -34,8 +33,8 @@ export const sendEmail = async ({
   link.searchParams.set("token", token);
   link.searchParams.set("redirect", ""); // TODO: Add redirect
 
-  await resend.emails.send({
-    from: "Bankinho <noreply@bankinho.br>",
+  const {data, error} = await resend.emails.send({
+    from: "Acme <onboarding@resend.dev>",
     to,
     subject,
     react: template({
@@ -45,6 +44,8 @@ export const sendEmail = async ({
       value,
     }),
   });
+
+  console.log(data, error)
 
   return {
     token,
