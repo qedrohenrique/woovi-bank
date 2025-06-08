@@ -33,7 +33,7 @@ export const sendEmail = async ({
   link.searchParams.set("token", token);
   link.searchParams.set("redirect", ""); // TODO: Add redirect
 
-  const {data, error} = await resend.emails.send({
+  await resend.emails.send({
     from: "Acme <onboarding@resend.dev>",
     to,
     subject,
@@ -44,8 +44,6 @@ export const sendEmail = async ({
       value,
     }),
   });
-
-  console.log(data, error)
 
   return {
     token,

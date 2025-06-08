@@ -1,7 +1,9 @@
-import { LoginMutation, SendEmailVerificationMutation } from "./authorization";
+import { ConfirmEmailMutation, LoginMutation, RegisterMutation, SendEmailVerificationMutation } from "../../../authorization";
 
 export const AuthMutations = {
   LoginMutation,
-  SendEmailVerificationMutation
+  RegisterMutation,
+  SendEmailVerificationMutation,
+  ConfirmEmailMutation,
 };
 
