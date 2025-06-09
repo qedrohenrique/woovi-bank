@@ -3,13 +3,15 @@ import { mutationWithClientMutationId } from "graphql-relay";
 import { sign } from "jsonwebtoken";
 import { env } from "process";
 import { v4 as uuidv4 } from "uuid";
-import { BadRequestException } from "./common/errors/bad-request-exception";
-import { NotFoundException } from "./common/errors/not-found-exception";
-import { UnauthorizedException } from "./common/errors/unauthorized-exception";
-import { sendEmail } from "./common/utils/mailer/mailer";
-import { UserConfirmationTemplate } from "./common/utils/mailer/templates/account-confirmation";
-import { addHours } from "./common/utils/time";
-import { UserModel } from "./entities/user/user-model";
+import { setAuthTokenCookie } from "../../../authentication/cookies";
+import { BadRequestException } from "../../../common/errors/bad-request-exception";
+import { NotFoundException } from "../../../common/errors/not-found-exception";
+import { UnauthorizedException } from "../../../common/errors/unauthorized-exception";
+import { sendEmail } from "../../../common/utils/mailer/mailer";
+import { UserConfirmationTemplate } from "../../../common/utils/mailer/templates/account-confirmation";
+import { addHours } from "../../../common/utils/time";
+import { AccountModel } from "../../../entities/account/account-model";
+import { UserModel } from "../../../entities/user/user-model";
 
 export type LoginMutationInput = {
   email: string;
@@ -40,14 +42,15 @@ const LoginMutation = mutationWithClientMutationId({
   outputFields: {
     token: { type: GraphQLString },
   },
-  mutateAndGetPayload: async ({ email, password }: LoginMutationInput) => {
+  mutateAndGetPayload: async ({ email, password }: LoginMutationInput, ctx) => {
     const user = await UserModel.findOne({ email });
 
-    if (!user || await user.comparePassword(password, user.password)) {
+    if (!user || !(await user.comparePassword(password, user.password))) {
       throw new UnauthorizedException();
     }
 
-    const token = sign({ email }, env.JWT_KEY, { expiresIn: '1h' });
+    const token = sign({ id: user._id }, env.JWT_KEY, { expiresIn: '1h' });
+    setAuthTokenCookie(ctx.ctx, token);
 
     return { token };
   },
@@ -67,13 +70,18 @@ const RegisterMutation = mutationWithClientMutationId({
   mutateAndGetPayload: async ({ fullName, email, cpf, password }: RegisterMutationInput) => {
     const token = uuidv4();
 
-    await UserModel.create({
+    const user = await UserModel.create({
       fullName,
       email,
       cpf,
       password,
       emailVerificationToken: token,
       emailVerificationTokenExpiresAt: addHours(new Date(), 1),
+    });
+
+    await AccountModel.create({
+      user: user._id,
+      balance: 0,
     });
 
     await sendEmail({

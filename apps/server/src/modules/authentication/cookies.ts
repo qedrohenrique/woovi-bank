@@ -13,10 +13,16 @@ export const setAuthTokenCookie = (ctx: Context, token: string) => {
   });
 };
 
+export const setIdempotencyKeyCookie = (ctx: Context, key: string) => {
+  ctx.cookies.set("bankinho.idempotency.key", key, {
+    domain: "localhost",
+  });
+};
+
 export const validateJwt = (token: string) => {
   try {
     const decoded = jwt.verify(token, env.JWT_KEY);
-    return decoded as { subId: string };
+    return decoded as { id: string };
   } catch {
     throw new Error("Invalid token.");
   }
@@ -26,13 +32,16 @@ export const getContextUser = async (ctx: ParameterizedContext) => {
   const token = ctx.cookies.get("bankinho.auth.token");
 
   try {
-    const { subId } = validateJwt(token as string);
-
-    const user = await UserModel.findById(subId);
+    const { id } = validateJwt(token as string);
+    const user = await UserModel.findById(id);
     return { user };
   } catch {
     return {
       user: undefined,
     };
   }
+};
+
+export const getIdempotencyKey = (ctx: ParameterizedContext) => {
+  return ctx.cookies.get("bankinho.idempotency.key");
 };

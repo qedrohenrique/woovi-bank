@@ -1,6 +1,5 @@
 Roadmap
 
-- E-mail confirmation
 - User login by cpf or email
 - Account on e-mail confirmation
 - Transactions
@@ -8,6 +7,11 @@ Roadmap
 
 ---
 
-Testar se email esta sendo disparado
-Depois criar templates
-Depois ver se a confirmacao funciona 
+Testar geração da chave de idempotencia
+
+---
+
+Melhorias:
+
+- Template email
+- Esqueci minha senha
