@@ -3,6 +3,7 @@ import { mutationWithClientMutationId } from "graphql-relay";
 import mongoose from "mongoose";
 import { IdempotencyKeyModel } from "../../../entities/idempotency-key/idempotency-key-model";
 import { TransactionModel } from "../../../entities/transaction/transaction-model";
+import { AccountModel } from "../../../entities/account/account-model";
 
 type CreateTransactionMutationInput = {
   amount: number;
@@ -57,6 +58,14 @@ const CreateTransactionMutation = mutationWithClientMutationId({
         description,
         date: new Date(),
       }).save();
+
+      await AccountModel.findByIdAndUpdate(targetUserId, {
+        $inc: { balance: amount },
+      });
+
+      await AccountModel.findByIdAndUpdate(user._id.toString(), {
+        $inc: { balance: -amount },
+      });
 
       await session.commitTransaction();
 
