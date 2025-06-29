@@ -1,0 +1,131 @@
+scalar DateTime
+
+type User {
+  id: ID!
+  fullName: String!
+  email: String!
+  cpf: String!
+  isEmailVerified: Boolean!
+  emailVerificationToken: String
+  emailVerificationTokenExpiresAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Account {
+  id: ID!
+  user: User!
+  balance: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Transaction {
+  id: ID!
+  idempotencyKey: String!
+  accountId: String!
+  targetAccountId: String!
+  amount: Int!
+  description: String
+  date: DateTime!
+}
+
+type IdempotencyKey {
+  id: ID!
+  keyId: String!
+  hashedKey: String!
+  payload: String!
+  expiresAt: DateTime!
+  createdAt: DateTime!
+}
+
+# Query Types
+type Query {
+  healthCheck: String
+}
+
+# Mutation Types
+type Mutation {
+  # Auth Mutations
+  LoginMutation(input: LoginMutationInput!): LoginMutationPayload
+  RegisterMutation(input: RegisterMutationInput!): RegisterMutationPayload
+  SendEmailVerificationMutation(input: SendEmailVerificationMutationInput!): SendEmailVerificationMutationPayload
+  ConfirmEmailMutation(input: ConfirmEmailMutationInput!): ConfirmEmailMutationPayload
+  
+  # Idempotency Mutations
+  CreateIdempotencyKeyMutation(input: CreateIdempotencyKeyMutationInput!): CreateIdempotencyKeyMutationPayload
+  
+  # Transaction Mutations
+  CreateTransactionMutation(input: CreateTransactionMutationInput!): CreateTransactionMutationPayload
+}
+
+# Auth Mutation Inputs
+input LoginMutationInput {
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+input RegisterMutationInput {
+  fullName: String!
+  email: String!
+  cpf: String!
+  password: String!
+  clientMutationId: String
+}
+
+input SendEmailVerificationMutationInput {
+  email: String!
+  clientMutationId: String
+}
+
+input ConfirmEmailMutationInput {
+  token: String!
+  clientMutationId: String
+}
+
+# Idempotency Mutation Inputs
+input CreateIdempotencyKeyMutationInput {
+  clientMutationId: String
+}
+
+# Transaction Mutation Inputs
+input CreateTransactionMutationInput {
+  amount: Int!
+  targetUserId: String!
+  description: String
+  clientMutationId: String
+}
+
+# Auth Mutation Payloads
+type LoginMutationPayload {
+  token: String
+  clientMutationId: String
+}
+
+type RegisterMutationPayload {
+  success: Boolean
+  clientMutationId: String
+}
+
+type SendEmailVerificationMutationPayload {
+  success: Boolean
+  clientMutationId: String
+}
+
+type ConfirmEmailMutationPayload {
+  success: Boolean
+  clientMutationId: String
+}
+
+# Idempotency Mutation Payloads
+type CreateIdempotencyKeyMutationPayload {
+  key: String!
+  clientMutationId: String
+}
+
+# Transaction Mutation Payloads
+type CreateTransactionMutationPayload {
+  transactionId: String!
+  clientMutationId: String
+}
