@@ -16,7 +16,7 @@
 		"@babel/preset-env": "^7.23.8",
 		"@babel/preset-typescript": "^7.23.3",
 		"@types/bcrypt": "^5.0.2",
-		"@woovi-playground/eslint-config-custom": "*",
+		"@woovi-playground/eslint-config-custom": "workspace:*",
 		"autoprefixer": "^10.4.16",
 		"babel-plugin-transform-barrels": "^1.0.10",
 		"eslint": "^8.53.0",
