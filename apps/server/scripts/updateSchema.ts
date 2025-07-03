@@ -1,9 +1,7 @@
 import fs from 'fs/promises';
 import { printSchema } from 'graphql/utilities';
 import path from 'path';
-import { promisify } from 'util';
-
-import { schema } from '../src/schema/schema';
+import { schema } from '../src/modules/graphql/index';
 
 (async () => {
 	await fs.writeFile(
