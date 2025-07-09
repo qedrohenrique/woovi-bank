@@ -11,8 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { useLogin } from "@/hooks/queries/authentication/auth";
+import { useLogin } from "@/hooks/mutations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
@@ -25,6 +24,8 @@ const formSchema = z.object({
 });
 
 const LoginPage = () => {
+  const { login, isPending } = useLogin();
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -34,10 +35,8 @@ const LoginPage = () => {
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    login(data.email, data.password);
   };
-
-  const { login, isPending } = useLogin();
 
   return (
     <div className="h-screen flex items-center justify-center">
