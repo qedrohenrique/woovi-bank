@@ -1,13 +1,23 @@
 // apps/web/src/hooks/useLogin.ts
 'use client';
 
+import { redirect } from 'next/navigation';
 import { graphql, useMutation } from 'react-relay';
 import type { authLoginMutation } from '../../__generated__/authLoginMutation.graphql';
+import type { authRegisterMutation } from '../../__generated__/authRegisterMutation.graphql';
 
 const LOGIN_MUTATION = graphql`
   mutation authLoginMutation($input: LoginMutationInput!) {
     LoginMutation(input: $input) {
       token
+    }
+  }
+`;
+
+const SIGNUP_MUTATION = graphql`
+  mutation authRegisterMutation($input: RegisterMutationInput!) {
+    RegisterMutation(input: $input) {
+      success
     }
   }
 `;
@@ -30,13 +40,34 @@ export function useLogin() {
             body: JSON.stringify({ value: data.LoginMutation.token }),
           });
         }
+
+        redirect('/dashboard');
       },
       onError: (error) => {
-        // TODO: handle error
         console.error(error);
       },
     });
   };
 
   return { login, isPending };
+}
+
+export function useSignup() {
+  const [commitMutation, isPending] = useMutation<authRegisterMutation>(SIGNUP_MUTATION);
+
+  const signup = (fullName: string, email: string, cpf: string, password: string) => {
+    commitMutation({
+      variables: { input: { fullName, email, cpf, password } },
+      onCompleted: (data) => {
+        if (data.RegisterMutation?.success) {
+          redirect('/login');
+        }
+      },
+      onError: (error) => {
+        console.error(error);
+      },
+    });
+  };
+
+  return { signup, isPending };
 }

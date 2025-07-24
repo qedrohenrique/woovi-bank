@@ -16,13 +16,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useSignup } from "@/hooks/mutations/auth";
 
 const formSchema = z.object({
   email: z.string().email(),
+  fullName: z.string().min(1, "Full Name is required"),
+  cpf: z.string().min(1, "CPF is required"),
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
 const SignUpPage = () => {
+  const { signup, isPending } = useSignup();
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -32,7 +37,7 @@ const SignUpPage = () => {
   });
 
   const onSubmit = (data: z.infer<typeof formSchema>) => {
-
+    signup(data.fullName, data.email, data.cpf, data.password);
   };
 
   return (
@@ -55,6 +60,42 @@ const SignUpPage = () => {
                       <Input
                         type="email"
                         placeholder="Email"
+                        className="w-full"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="fullName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Full Name"
+                        className="w-full"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="cpf"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>CPF</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="CPF"
                         className="w-full"
                         {...field}
                       />
@@ -94,10 +135,10 @@ const SignUpPage = () => {
             </Link>
           </p>
         </div>
-        <div className="bg-muted hidden lg:block" />
+            <div className="bg-muted hidden lg:block" />
+        </div>
       </div>
-    </div>
-  );
+      );
 };
 
-export default SignUpPage;
+      export default SignUpPage;
