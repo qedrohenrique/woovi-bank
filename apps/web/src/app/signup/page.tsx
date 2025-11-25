@@ -11,12 +11,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { useSignup } from "@/hooks/mutations/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useSignup } from "@/hooks/mutations/auth";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -135,10 +134,10 @@ const SignUpPage = () => {
             </Link>
           </p>
         </div>
-            <div className="bg-muted hidden lg:block" />
-        </div>
+        <div className="bg-muted hidden lg:block" />
       </div>
-      );
+    </div>
+  );
 };
 
-      export default SignUpPage;
+export default SignUpPage;

@@ -11,6 +11,9 @@ import {
 import data from "./data.json"
 
 export default function Page() {
+
+  // const transactions = 
+
   return (
     <SidebarProvider
       style={

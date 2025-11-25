@@ -2,11 +2,17 @@ import cors from 'kcors';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import logger from 'koa-logger';
+import { env } from '../config/environment';
 import routes from './routes';
 
 const app = new Koa();
 
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: env.FRONTEND_URL,
+  credentials: true,
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+}));
 app.use(logger());
 app.use(
   bodyParser({

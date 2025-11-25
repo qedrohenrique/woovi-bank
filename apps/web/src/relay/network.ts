@@ -62,6 +62,7 @@ async function networkFetch(
 			...headers,
 			'Content-Type': 'application/json',
 		},
+		credentials: 'include',
 		body: JSON.stringify({
 			query: params.text,
 			variables,

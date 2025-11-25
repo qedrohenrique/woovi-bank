@@ -1,10 +1,10 @@
-// apps/web/src/hooks/useLogin.ts
 'use client';
 
 import { redirect } from 'next/navigation';
 import { graphql, useMutation } from 'react-relay';
 import type { authLoginMutation } from '../../__generated__/authLoginMutation.graphql';
 import type { authRegisterMutation } from '../../__generated__/authRegisterMutation.graphql';
+import { toast } from 'sonner';
 
 const LOGIN_MUTATION = graphql`
   mutation authLoginMutation($input: LoginMutationInput!) {
@@ -32,7 +32,8 @@ export function useLogin() {
       },
       onCompleted: (data) => {
         if (data.LoginMutation?.token) {
-          fetch(`/api/set-cookie?name=bankinho.auth.token`, {
+          toast.success('Login realizado com sucesso');
+            fetch(`/api/set-cookie?name=bankinho.auth.token`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export function useLogin() {
         redirect('/dashboard');
       },
       onError: (error) => {
-        console.error(error);
+        toast.error('Erro ao fazer login');
       },
     });
   };
@@ -60,11 +61,14 @@ export function useSignup() {
       variables: { input: { fullName, email, cpf, password } },
       onCompleted: (data) => {
         if (data.RegisterMutation?.success) {
+          toast.success('Usuário criado com sucesso');
           redirect('/login');
+        } else {
+          toast.error('Erro ao criar usuário');
         }
       },
       onError: (error) => {
-        console.error(error);
+        toast.error('Erro ao criar usuário');
       },
     });
   };
