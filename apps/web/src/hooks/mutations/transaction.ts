@@ -77,7 +77,13 @@ export function useCreateTransaction() {
                 }
               },
               onError: (error) => {
-                toast.error('Erro ao criar transação: ' + (error.message || 'Erro desconhecido'));
+                const errorMessage = error.message || 'Erro desconhecido';
+                if (errorMessage.toLowerCase().includes('insufficient balance') ||
+                  errorMessage.toLowerCase().includes('saldo insuficiente')) {
+                  toast.error('Saldo insuficiente para realizar esta transação');
+                } else {
+                  toast.error('Erro ao criar transação: ' + errorMessage);
+                }
                 reject(error);
               },
             });
@@ -95,6 +101,6 @@ export function useCreateTransaction() {
 
   const isTransactionPending = isPending;
   const isAnyPending = isTransactionPending || isIdempotencyPending;
-  
+
   return { createTransaction, isPending: isAnyPending };
 }

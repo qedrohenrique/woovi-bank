@@ -9,6 +9,7 @@ const ME_QUERY = graphql`
       fullName
       email
       cpf
+      balance
     }
   }
 `;

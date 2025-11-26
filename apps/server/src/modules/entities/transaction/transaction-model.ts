@@ -23,13 +23,21 @@ const TransactionSchema = new mongoose.Schema<Transaction>({
 
 TransactionSchema.pre('save', async function (next) {
   try {
-    await AccountModel.findByIdAndUpdate(this.accountId, {
-      $inc: { balance: -this.amount }
-    });
+    const session = (this as any).$session?.();
 
-    await AccountModel.findByIdAndUpdate(this.targetAccountId, {
-      $inc: { balance: this.amount }
-    });
+    const updateOptions = session ? { session } : {};
+
+    await AccountModel.findByIdAndUpdate(
+      this.accountId,
+      { $inc: { balance: -this.amount } },
+      updateOptions
+    );
+
+    await AccountModel.findByIdAndUpdate(
+      this.targetAccountId,
+      { $inc: { balance: this.amount } },
+      updateOptions
+    );
 
     next();
   } catch (error) {
@@ -40,13 +48,20 @@ TransactionSchema.pre('save', async function (next) {
 TransactionSchema.post('save', async function (error: any, doc: TransactionDocument, next: any) {
   if (error) {
     try {
-      await AccountModel.findByIdAndUpdate(doc.accountId, {
-        $inc: { balance: doc.amount }
-      });
+      const session = (doc as any).$session?.();
+      const updateOptions = session ? { session } : {};
 
-      await AccountModel.findByIdAndUpdate(doc.targetAccountId, {
-        $inc: { balance: -doc.amount }
-      });
+      await AccountModel.findByIdAndUpdate(
+        doc.accountId,
+        { $inc: { balance: doc.amount } },
+        updateOptions
+      );
+
+      await AccountModel.findByIdAndUpdate(
+        doc.targetAccountId,
+        { $inc: { balance: -doc.amount } },
+        updateOptions
+      );
     } catch (revertError) {
       console.error('Error reverting account balances:', revertError);
     }

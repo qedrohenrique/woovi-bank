@@ -1,4 +1,5 @@
-import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLFloat, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
+import { AccountModel } from "../../../entities/account/account-model";
 
 const MeType = new GraphQLObjectType({
   name: "Me",
@@ -18,6 +19,13 @@ const MeType = new GraphQLObjectType({
     cpf: {
       type: new GraphQLNonNull(GraphQLString),
       resolve: (user) => user.cpf,
+    },
+    balance: {
+      type: new GraphQLNonNull(GraphQLFloat),
+      resolve: async (user) => {
+        const account = await AccountModel.findOne({ user: user._id });
+        return account?.balance ?? 0;
+      },
     },
   }),
 });

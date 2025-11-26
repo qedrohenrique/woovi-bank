@@ -45,15 +45,24 @@ export function CreateTransactionModal({ children }: { children?: React.ReactNod
   const { createTransaction, isPending } = useCreateTransaction()
   const { me } = useMe()
   const form = useForm<TransactionFormValues>({
-    resolver: zodResolver(transactionSchema.refine((data) => {
-      if (!me?.cpf) return true
-      const inputCpf = data.cpf.replace(/\D/g, "")
-      const myCpf = me.cpf.replace(/\D/g, "")
-      return inputCpf !== myCpf
-    }, {
-      message: "Você não pode enviar dinheiro para si mesmo",
-      path: ["cpf"],
-    })),
+    resolver: zodResolver(transactionSchema
+      .refine((data) => {
+        if (!me?.cpf) return true
+        const inputCpf = data.cpf.replace(/\D/g, "")
+        const myCpf = me.cpf.replace(/\D/g, "")
+        return inputCpf !== myCpf
+      }, {
+        message: "Você não pode enviar dinheiro para si mesmo",
+        path: ["cpf"],
+      })
+      .refine((data) => {
+        if (me?.balance === undefined || me?.balance === null) return true
+        return data.amount <= me.balance
+      }, {
+        message: "Saldo insuficiente",
+        path: ["amount"],
+      })
+    ),
     defaultValues: {
       amount: 0,
       cpf: "",
@@ -67,7 +76,8 @@ export function CreateTransactionModal({ children }: { children?: React.ReactNod
   }, [open, form])
 
   const onSubmit = async (data: TransactionFormValues) => {
-    await createTransaction(data.amount, data.cpf, data.description)
+    const cleanCpf = data.cpf.replace(/\D/g, "")
+    await createTransaction(data.amount, cleanCpf, data.description)
     form.reset()
     setOpen(false)
   }

@@ -24,6 +24,7 @@ type Me {
   fullName: String!
   email: String!
   cpf: String!
+  balance: Float!
 }
 
 """Root mutations"""
@@ -33,7 +34,7 @@ type Mutation {
   SendEmailVerificationMutation(input: SendEmailVerificationMutationInput!): SendEmailVerificationMutationPayload
   ConfirmEmailMutation(input: ConfirmEmailMutationInput!): ConfirmEmailMutationPayload
   CreateIdempotencyKeyMutation(input: CreateIdempotencyKeyMutationInput!): CreateIdempotencyKeyMutationPayload
-  CreateTransactionMutation(input: CreateTransactionInput!): CreateTransactionPayload
+  CreateTransactionMutation(input: CreateTransactionMutationInput!): CreateTransactionMutationPayload
 }
 
 type LoginMutationPayload {
@@ -89,13 +90,13 @@ input CreateIdempotencyKeyMutationInput {
   clientMutationId: String
 }
 
-type CreateTransactionPayload {
-  transactionId: String
+type CreateTransactionMutationPayload {
+  transactionId: String!
   clientMutationId: String
 }
 
-input CreateTransactionInput {
-  amount: Int!
+input CreateTransactionMutationInput {
+  amount: Float!
   cpf: String!
   description: String
   clientMutationId: String
