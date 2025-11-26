@@ -34,7 +34,6 @@ export const RelayHydrate = <T,>({
 				.getNetwork()
 				// @ts-ignore - seems to be a private untyped api 🤷‍♂️
 				.responseCache.set(params.id, variables, response);
-			// TODO: create using a function exported from react-relay package
 			queryRefs[queryName] = {
 				environment,
 				fetchKey: params.id,

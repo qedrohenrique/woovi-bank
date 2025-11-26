@@ -41,11 +41,6 @@ function createNetwork() {
 	network.responseCache = responseCache;
 	return network;
 }
-/**
- * Relay requires developers to configure a "fetch" function that tells Relay how to load
- * the results of GraphQL queries from your server (or other data source). See more at
- * https://relay.dev/docs/en/quick-start-guide#relay-environment.
- */
 
 const GRAPHQL_ENPOINT = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string;
 
@@ -55,7 +50,6 @@ async function networkFetch(
 	headers?: HeadersInit
 ) {
 
-	// Fetch data from GraphQL API:
 	const response = await fetch(GRAPHQL_ENPOINT, {
 		method: 'POST',
 		headers: {
@@ -69,12 +63,8 @@ async function networkFetch(
 		}),
 	});
 
-	// Get the response as JSON
 	const json = await response.json();
 
-	// GraphQL returns exceptions (for example, a missing required variable) in the "errors"
-	// property of the response. If any exceptions occurred when processing the request,
-	// throw an error to indicate to the developer what went wrong.
 	if (Array.isArray(json.errors)) {
 		throw new Error(
 			`Error fetching GraphQL query '${params.name
@@ -84,7 +74,6 @@ async function networkFetch(
 		);
 	}
 
-	// Otherwise, return the full payload.
 	return json;
 }
 

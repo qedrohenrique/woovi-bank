@@ -86,7 +86,6 @@ const columns: ColumnDef<Transaction>[] = [
     accessorKey: "type",
     header: "Tipo",
     cell: ({ row }) => {
-      // Determina se é entrada ou saída baseado no amount
       const isOutgoing = row.original.amount < 0
       return (
         <Badge variant={isOutgoing ? "destructive" : "default"}>

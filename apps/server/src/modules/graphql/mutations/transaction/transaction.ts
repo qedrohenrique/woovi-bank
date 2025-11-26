@@ -1,9 +1,9 @@
 import { GraphQLInt, GraphQLNonNull, GraphQLString } from "graphql";
 import { mutationWithClientMutationId } from "graphql-relay";
 import mongoose from "mongoose";
+import { AccountModel } from "../../../entities/account/account-model";
 import { IdempotencyKeyModel } from "../../../entities/idempotency-key/idempotency-key-model";
 import { TransactionModel } from "../../../entities/transaction/transaction-model";
-import { AccountModel } from "../../../entities/account/account-model";
 
 type CreateTransactionMutationInput = {
   amount: number;
@@ -21,7 +21,7 @@ const CreateTransactionMutation = mutationWithClientMutationId({
   outputFields: {
     transactionId: {
       type: new GraphQLNonNull(GraphQLString),
-      resolve: async (payload) => payload.transactionId,
+      resolve: async (payload: { transactionId: string }) => payload.transactionId,
     },
   },
   mutateAndGetPayload: async (
@@ -69,7 +69,7 @@ const CreateTransactionMutation = mutationWithClientMutationId({
 
       await session.commitTransaction();
 
-      return transaction;
+      return { transactionId: transaction._id.toString() };
     } catch (error) {
       await session.abortTransaction();
       throw error;

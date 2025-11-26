@@ -12,8 +12,6 @@ const subscriptionsClient = IS_SERVER
 			url: SUBSCRIPTIONS_ENPOINT,
 	  });
 
-// both fetch and subscribe can be handled through one implementation
-// to understand why we return Observable<any>, please see: https://github.com/enisdenjo/graphql-ws/issues/316#issuecomment-1047605774
 function subscribe(
 	operation: RequestParameters,
 	variables: Variables

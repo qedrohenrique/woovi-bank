@@ -20,7 +20,6 @@ export function RelayProvider({ children }: RelayProviderProps) {
 	);
 }
 
-// Mantém o componente original para compatibilidade com pages router se necessário
 export function ReactRelayContainer<T>({
 	Component,
 	props,
