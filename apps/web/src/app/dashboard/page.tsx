@@ -1,19 +1,32 @@
+"use client"
+
 import { AppSidebar } from "@/components/custom/app-sidebar"
 import { ChartAreaInteractive } from "@/components/custom/chart-area-interactive"
-import { DataTable } from "@/components/custom/data-table"
 import { SectionCards } from "@/components/custom/section-cards"
 import { SiteHeader } from "@/components/custom/site-header"
+import { TransactionsTable } from "@/components/custom/transactions-table"
 import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
+import { useTransactions } from "@/hooks/queries/transactions"
+import { Suspense } from "react"
 
-import data from "./data.json"
+function TransactionsContent() {
+  const { transactions, isLoading } = useTransactions()
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <p className="text-muted-foreground">Carregando transações...</p>
+      </div>
+    )
+  }
+
+  return <TransactionsTable data={transactions} />
+}
 
 export default function Page() {
-
-  // const transactions = 
-
   return (
     <SidebarProvider
       style={
@@ -33,7 +46,13 @@ export default function Page() {
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive />
               </div>
-              <DataTable data={data} />
+              <Suspense fallback={
+                <div className="flex items-center justify-center p-8">
+                  <p className="text-muted-foreground">Carregando transações...</p>
+                </div>
+              }>
+                <TransactionsContent />
+              </Suspense>
             </div>
           </div>
         </div>

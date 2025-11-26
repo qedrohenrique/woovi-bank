@@ -1,6 +1,19 @@
 """Root queries"""
 type Query {
   healthCheck: String
+
+  """Get all transactions for the authenticated user"""
+  transactions: [Transaction]!
+}
+
+type Transaction {
+  id: String!
+  idempotencyKey: String
+  accountId: String
+  targetAccountId: String
+  amount: Float!
+  description: String
+  date: String!
 }
 
 """Root mutations"""

@@ -1,4 +1,5 @@
 import { GraphQLObjectType, GraphQLString } from "graphql";
+import { TransactionsQuery } from "./transaction/transaction";
 
 export const Query = new GraphQLObjectType({
   name: "Query",
@@ -7,6 +8,7 @@ export const Query = new GraphQLObjectType({
     healthCheck: {
       type: GraphQLString,
       resolve: () => 'ok',
-    } ,
+    },
+    transactions: TransactionsQuery,
   }),
 });
