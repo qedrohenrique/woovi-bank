@@ -1,11 +1,4 @@
 "use client"
-
-import {
-  IconDotsVertical,
-  IconLogout,
-  IconUserCircle
-} from "@tabler/icons-react"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +13,13 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import {
+  IconDotsVertical,
+  IconLogout,
+  IconUserCircle
+} from "@tabler/icons-react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 export function NavUser({
   user,
@@ -31,6 +31,18 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const router = useRouter()
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/del-cookie?name=bankinho.auth.token", {
+        method: "DELETE",
+      })
+      toast.success("Logout realizado com sucesso")
+      router.push("/login")
+    } catch (error) {
+      toast.error("Erro ao fazer logout")
+    }
+  }
 
   return (
     <SidebarMenu>
@@ -71,7 +83,7 @@ export function NavUser({
               <IconUserCircle />
               Account
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out
             </DropdownMenuItem>

@@ -47,22 +47,14 @@ export const TransactionsQuery = {
   description: "Get all transactions for the authenticated user",
   resolve: async (_: any, __: any, ctx: any) => {
     const { user } = ctx;
-
     if (!user) {
       throw new Error("User not authenticated");
     }
-
-    // Find the account for this user
     const account = await AccountModel.findOne({ user: user._id });
-
     if (!account) {
       return [];
     }
-
     const accountId = (account._id as any).toString();
-
-    // Find all transactions where the user's account is involved
-    // (either as sender or receiver)
     const transactions = await TransactionModel.find({
       $or: [
         { accountId: accountId },
@@ -71,8 +63,6 @@ export const TransactionsQuery = {
     })
       .sort({ date: -1 })
       .limit(100);
-
     return transactions;
   },
 };
-

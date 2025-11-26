@@ -1,7 +1,7 @@
 "use client"
-
 import { AppSidebar } from "@/components/custom/app-sidebar"
 import { ChartAreaInteractive } from "@/components/custom/chart-area-interactive"
+import { CreateTransactionModal } from "@/components/custom/create-transaction-modal"
 import { SectionCards } from "@/components/custom/section-cards"
 import { SiteHeader } from "@/components/custom/site-header"
 import { TransactionsTable } from "@/components/custom/transactions-table"
@@ -14,7 +14,6 @@ import { Suspense } from "react"
 
 function TransactionsContent() {
   const { transactions, isLoading } = useTransactions()
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center p-8">
@@ -22,7 +21,6 @@ function TransactionsContent() {
       </div>
     )
   }
-
   return <TransactionsTable data={transactions} />
 }
 
@@ -45,6 +43,10 @@ export default function Page() {
               <SectionCards />
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive />
+              </div>
+              <div className="flex items-center justify-between px-4 lg:px-6">
+                <h2 className="text-2xl font-bold">Transações</h2>
+                <CreateTransactionModal />
               </div>
               <Suspense fallback={
                 <div className="flex items-center justify-center p-8">

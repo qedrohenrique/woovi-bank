@@ -4,6 +4,9 @@ type Query {
 
   """Get all transactions for the authenticated user"""
   transactions: [Transaction]!
+
+  """Get the authenticated user"""
+  me: Me
 }
 
 type Transaction {
@@ -16,6 +19,13 @@ type Transaction {
   date: String!
 }
 
+type Me {
+  id: String!
+  fullName: String!
+  email: String!
+  cpf: String!
+}
+
 """Root mutations"""
 type Mutation {
   LoginMutation(input: LoginMutationInput!): LoginMutationPayload
@@ -23,7 +33,7 @@ type Mutation {
   SendEmailVerificationMutation(input: SendEmailVerificationMutationInput!): SendEmailVerificationMutationPayload
   ConfirmEmailMutation(input: ConfirmEmailMutationInput!): ConfirmEmailMutationPayload
   CreateIdempotencyKeyMutation(input: CreateIdempotencyKeyMutationInput!): CreateIdempotencyKeyMutationPayload
-  CreateTransactionMutation(input: CreateTransactionMutationInput!): CreateTransactionMutationPayload
+  CreateTransactionMutation(input: CreateTransactionInput!): CreateTransactionPayload
 }
 
 type LoginMutationPayload {
@@ -79,14 +89,14 @@ input CreateIdempotencyKeyMutationInput {
   clientMutationId: String
 }
 
-type CreateTransactionMutationPayload {
-  transactionId: String!
+type CreateTransactionPayload {
+  transactionId: String
   clientMutationId: String
 }
 
-input CreateTransactionMutationInput {
+input CreateTransactionInput {
   amount: Int!
-  targetUserId: String!
+  cpf: String!
   description: String
   clientMutationId: String
 }
