@@ -1,8 +1,5 @@
 "use client"
 import { AppSidebar } from "@/components/custom/app-sidebar"
-import { ChartAreaInteractive } from "@/components/custom/chart-area-interactive"
-import { CreateTransactionModal } from "@/components/custom/create-transaction-modal"
-import { SectionCards } from "@/components/custom/section-cards"
 import { SiteHeader } from "@/components/custom/site-header"
 import { TransactionsTable } from "@/components/custom/transactions-table"
 import {
@@ -10,18 +7,21 @@ import {
   SidebarProvider,
 } from "@/components/ui/sidebar"
 import { useTransactions } from "@/hooks/queries/transactions"
+import { useMe } from "@/hooks/queries/useMe"
 import { Suspense } from "react"
 
 function TransactionsContent() {
-  const { transactions, isLoading } = useTransactions()
-  if (isLoading) {
+  const { transactions, isLoading: isLoadingTransactions } = useTransactions()
+  const { me, isLoading: isLoadingMe } = useMe()
+
+  if (isLoadingTransactions || isLoadingMe) {
     return (
       <div className="flex items-center justify-center p-8">
         <p className="text-muted-foreground">Carregando transações...</p>
       </div>
     )
   }
-  return <TransactionsTable data={transactions} />
+  return <TransactionsTable data={transactions} userAccountId={me?.accountId} />
 }
 
 export default function Page() {
@@ -37,28 +37,14 @@ export default function Page() {
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-              <SectionCards />
-              <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
-              </div>
-              <div className="flex items-center justify-between px-4 lg:px-6">
-                <h2 className="text-2xl font-bold">Transações</h2>
-                <CreateTransactionModal />
-              </div>
-              <Suspense fallback={
-                <div className="flex items-center justify-center p-8">
-                  <p className="text-muted-foreground">Carregando transações...</p>
-                </div>
-              }>
-                <TransactionsContent />
-              </Suspense>
-            </div>
+        <Suspense fallback={
+          <div className="flex items-center justify-center p-8">
+            <p className="text-muted-foreground">Carregando transações...</p>
           </div>
-        </div>
+        }>
+          <TransactionsContent />
+        </Suspense>
       </SidebarInset>
-    </SidebarProvider>
+    </SidebarProvider >
   )
 }

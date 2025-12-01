@@ -27,6 +27,14 @@ const MeType = new GraphQLObjectType({
         return account?.balance ?? 0;
       },
     },
+    accountId: {
+      type: new GraphQLNonNull(GraphQLString),
+      resolve: async (user) => {
+        const account = await AccountModel.findOne({ user: user._id });
+        if (!account) throw new Error("Account not found")
+        return (account._id as any).toString();
+      },
+    },
   }),
 });
 

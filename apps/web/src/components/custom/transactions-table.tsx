@@ -41,65 +41,12 @@ export type Transaction = {
   targetAccountId: string
 }
 
-const columns: ColumnDef<Transaction>[] = [
-  {
-    accessorKey: "date",
-    header: "Data",
-    cell: ({ row }) => {
-      const date = new Date(row.original.date)
-      return (
-        <div className="text-sm">
-          {date.toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "description",
-    header: "Descrição",
-    cell: ({ row }) => (
-      <div className="text-sm">
-        {row.original.description || 'Sem descrição'}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="w-full text-right">Valor</div>,
-    cell: ({ row }) => {
-      const amount = row.original.amount
-      const isNegative = amount < 0
-      return (
-        <div className={`text-right font-medium ${isNegative ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
-          {isNegative ? '-' : '+'} R$ {Math.abs(amount).toFixed(2).replace('.', ',')}
-        </div>
-      )
-    },
-  },
-  {
-    accessorKey: "type",
-    header: "Tipo",
-    cell: ({ row }) => {
-      const isOutgoing = row.original.amount < 0
-      return (
-        <Badge variant={isOutgoing ? "destructive" : "default"}>
-          {isOutgoing ? "Saída" : "Entrada"}
-        </Badge>
-      )
-    },
-  },
-]
-
 export function TransactionsTable({
   data: initialData,
+  userAccountId,
 }: {
   data: Transaction[]
+  userAccountId?: string
 }) {
   const [data] = React.useState(() => initialData)
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -112,6 +59,79 @@ export function TransactionsTable({
     pageIndex: 0,
     pageSize: 10,
   })
+
+  const columns = React.useMemo<ColumnDef<Transaction>[]>(
+    () => [
+      {
+        accessorKey: "date",
+        header: "Data",
+        cell: ({ row }) => {
+          const date = new Date(row.original.date)
+          return (
+            <div className="text-sm">
+              {date.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </div>
+          )
+        },
+      },
+      {
+        accessorKey: "description",
+        header: "Descrição",
+        cell: ({ row }) => (
+          <div className="text-sm">
+            {row.original.description || 'Sem descrição'}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "amount",
+        header: () => <div className="w-full text-right">Valor</div>,
+        cell: ({ row }) => {
+          const transaction = row.original
+          let isNegative = false
+
+          if (userAccountId) {
+            isNegative = transaction.accountId === userAccountId
+          } else {
+            isNegative = transaction.amount < 0
+          }
+
+          return (
+            <div className={`text-right font-medium ${isNegative ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
+              {isNegative ? '-' : '+'} R$ {Math.abs(transaction.amount).toFixed(2).replace('.', ',')}
+            </div>
+          )
+        },
+      },
+      {
+        accessorKey: "type",
+        header: "Tipo",
+        cell: ({ row }) => {
+          const transaction = row.original
+          let isOutgoing = false
+
+          if (userAccountId) {
+            isOutgoing = transaction.accountId === userAccountId
+          } else {
+            isOutgoing = transaction.amount < 0
+          }
+
+          return (
+            <Badge variant={isOutgoing ? "destructive" : "default"}>
+              {isOutgoing ? "Saída" : "Entrada"}
+            </Badge>
+          )
+        },
+      },
+    ],
+    [userAccountId]
+  )
 
   const table = useReactTable({
     data,
@@ -261,4 +281,3 @@ export function TransactionsTable({
     </div>
   )
 }
-

@@ -25,6 +25,7 @@ type Me {
   email: String!
   cpf: String!
   balance: Float!
+  accountId: String!
 }
 
 """Root mutations"""
