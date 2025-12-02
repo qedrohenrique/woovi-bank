@@ -11,6 +11,10 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
+  if (token && (publicRoutes.includes(pathname) || pathname === "/")) {
+    return NextResponse.redirect(new URL("/dashboard", req.url));
+  }
+
   if (!token && !publicRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/login", req.url));
   }

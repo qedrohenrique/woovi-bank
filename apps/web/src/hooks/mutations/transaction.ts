@@ -1,8 +1,9 @@
 'use client';
-import { graphql, useMutation, useRelayEnvironment } from 'react-relay';
+import { fetchQuery, graphql, useMutation, useRelayEnvironment } from 'react-relay';
 import { toast } from 'sonner';
 import type { transactionCreateIdempotencyKeyMutation } from '../../__generated__/transactionCreateIdempotencyKeyMutation.graphql';
 import type { transactionCreateTransactionMutation } from '../../__generated__/transactionCreateTransactionMutation.graphql';
+import { TRANSACTIONS_QUERY } from '../queries/transactions';
 
 const CREATE_IDEMPOTENCY_KEY_MUTATION = graphql`
   mutation transactionCreateIdempotencyKeyMutation($input: CreateIdempotencyKeyMutationInput!) {
@@ -71,6 +72,11 @@ export function useCreateTransaction() {
               onCompleted: (data) => {
                 if (data.CreateTransactionMutation?.transactionId) {
                   toast.success('Transação criada com sucesso!');
+                  fetchQuery(environment, TRANSACTIONS_QUERY, {})
+                    .toPromise()
+                    .catch((error) => {
+                      console.warn('Erro ao refazer consulta de transações:', error);
+                    });
                   resolve();
                 } else {
                   reject(new Error('Falha ao criar transação'));

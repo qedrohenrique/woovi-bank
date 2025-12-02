@@ -17,6 +17,8 @@ type Transaction {
   amount: Float!
   description: String
   date: String!
+  targetUserCpf: String
+  accountUserCpf: String
 }
 
 type Me {

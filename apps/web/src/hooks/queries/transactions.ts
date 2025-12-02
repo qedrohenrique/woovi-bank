@@ -4,7 +4,7 @@ import { useRelayQuery } from '@/relay/useRelayQuery';
 import { graphql } from 'react-relay';
 import type { transactionsQuery } from '../../__generated__/transactionsQuery.graphql';
 
-const TRANSACTIONS_QUERY = graphql`
+export const TRANSACTIONS_QUERY = graphql`
   query transactionsQuery {
     transactions {
       id
@@ -13,6 +13,8 @@ const TRANSACTIONS_QUERY = graphql`
       date
       accountId
       targetAccountId
+      targetUserCpf
+      accountUserCpf
     }
   }
 `;
@@ -29,6 +31,8 @@ export function useTransactions() {
       date: t.date,
       accountId: t.accountId ?? '',
       targetAccountId: t.targetAccountId ?? '',
+      targetUserCpf: t.targetUserCpf ?? null,
+      accountUserCpf: t.accountUserCpf ?? null,
     }));
 
   return {

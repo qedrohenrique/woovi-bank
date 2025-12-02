@@ -1,5 +1,7 @@
 "use client"
 import { AppSidebar } from "@/components/custom/app-sidebar"
+import { BarChartTransactions } from "@/components/custom/bar-chart-transactions"
+import { CreateTransactionModal } from "@/components/custom/create-transaction-modal"
 import { SiteHeader } from "@/components/custom/site-header"
 import { TransactionsTable } from "@/components/custom/transactions-table"
 import {
@@ -21,7 +23,12 @@ function TransactionsContent() {
       </div>
     )
   }
-  return <TransactionsTable data={transactions} userAccountId={me?.accountId} />
+  return (
+    <div className="flex flex-col gap-6 p-6">
+      <BarChartTransactions transactions={transactions} userAccountId={me?.accountId} />
+      <TransactionsTable data={transactions} userAccountId={me?.accountId} />
+    </div>
+  )
 }
 
 export default function Page() {

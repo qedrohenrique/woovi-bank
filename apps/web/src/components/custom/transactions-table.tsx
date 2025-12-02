@@ -39,6 +39,8 @@ export type Transaction = {
   date: string
   accountId: string
   targetAccountId: string
+  targetUserCpf: string | null
+  accountUserCpf: string | null
 }
 
 export function TransactionsTable({
@@ -88,6 +90,35 @@ export function TransactionsTable({
             {row.original.description || 'Sem descrição'}
           </div>
         ),
+      },
+      {
+        accessorKey: "destinatario",
+        header: "Contraparte (CPF)",
+        cell: ({ row }) => {
+          const transaction = row.original
+          const isOutgoing = userAccountId
+            ? transaction.accountId === userAccountId
+            : transaction.amount < 0
+
+          const cpf = isOutgoing
+            ? transaction.targetUserCpf
+            : transaction.accountUserCpf
+
+          const label = isOutgoing ? "Destinatário" : "Remetente"
+
+          return (
+            <div className="text-sm">
+              {cpf ? (
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-muted-foreground text-xs">{label}:</span>
+                  <span>{cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}</span>
+                </div>
+              ) : (
+                '-'
+              )}
+            </div>
+          )
+        },
       },
       {
         accessorKey: "amount",
