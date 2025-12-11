@@ -1,10 +1,10 @@
-# Woovi Playground
-
-Uma aplicação moderna de gerenciamento financeiro desenvolvida com tecnologias de ponta, oferecendo funcionalidades completas de autenticação, transações e visualização de dados financeiros.
+# Woovi Bank
 
 ## 📋 Sobre o Projeto
 
 O Woovi Playground é uma plataforma bancária que permite aos usuários gerenciar suas contas, realizar transações e acompanhar seu histórico financeiro através de uma interface intuitiva e moderna. A aplicação foi construída seguindo as melhores práticas de desenvolvimento, utilizando uma arquitetura de monorepo para facilitar a manutenção e escalabilidade.
+
+TLDR: desafio técnico da woovi 🤣
 
 ## ✨ Funcionalidades
 
@@ -50,21 +50,6 @@ O Woovi Playground é uma plataforma bancária que permite aos usuários gerenci
 - **Docker** - Containerização
 - **pnpm** - Gerenciador de pacotes
 
-## 📁 Estrutura do Projeto
-
-```
-woovi-playground/
-├── apps/
-│   ├── server/          # Backend GraphQL (Koa.js)
-│   └── web/             # Frontend (Next.js)
-├── packages/
-│   ├── eslint-config-custom/  # Configuração ESLint compartilhada
-│   ├── tsconfig/        # Configurações TypeScript
-│   └── ui/              # Componentes UI compartilhados
-├── docker-compose.yml   # Configuração Docker
-└── turbo.json          # Configuração Turbo
-```
-
 ## 🚀 Como Executar
 
 ### Pré-requisitos
@@ -109,16 +94,8 @@ A aplicação estará disponível em:
 
 ## 📸 Screenshots
 
-<!-- Adicione suas screenshots aqui -->
-
-### Dashboard
-<!-- ![Dashboard](./screenshots/dashboard.png) -->
-
-### Transações
-<!-- ![Transações](./screenshots/transactions.png) -->
-
-### Login
-<!-- ![Login](./screenshots/login.png) -->
+<img width="1300" height="736" alt="Screenshot from 2025-12-11 04-40-13" src="https://github.com/user-attachments/assets/71a4f20f-9300-41d6-a8ca-254e3d81bf16" />
+<img width="1300" height="736" alt="Screenshot from 2025-12-11 04-38-42" src="https://github.com/user-attachments/assets/a60bf3c7-b0dd-49b4-8e4f-55a01e71e629" />
 
 ## 🧪 Scripts Disponíveis
 
@@ -148,26 +125,3 @@ A API GraphQL oferece as seguintes operações:
 - `RegisterMutation` - Registro de novo usuário
 - `CreateTransactionMutation` - Criação de transação
 - `CreateIdempotencyKeyMutation` - Geração de chave de idempotência
-
-## 🗺️ Roadmap
-
-- [x] Login por CPF ou email
-- [x] Criação de conta com confirmação por email
-- [x] Sistema de transações
-- [x] Chave de idempotência para transações
-- [ ] Template de email melhorado
-- [ ] Recuperação de senha (Esqueci minha senha)
-- [ ] Notificações em tempo real
-- [ ] Exportação de extrato
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
-
-## 📝 Licença
-
-Este projeto é privado e de uso interno.
-
----
-
-Desenvolvido com ❤️ para Woovi
