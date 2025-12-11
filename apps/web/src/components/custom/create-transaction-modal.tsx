@@ -84,7 +84,7 @@ export function CreateTransactionModal({ children }: { children?: React.ReactNod
 
   return (
     <Drawer open={open} onOpenChange={setOpen} direction={isMobile ? "bottom" : "right"}>
-      <DrawerTrigger asChild>
+      <DrawerTrigger asChild className="mx-2">
         {children || (
           <Button>
             <IconPlus className="mr-2 h-4 w-4" />

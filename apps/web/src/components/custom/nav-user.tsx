@@ -15,8 +15,7 @@ import {
 } from "@/components/ui/sidebar"
 import {
   IconDotsVertical,
-  IconLogout,
-  IconUserCircle
+  IconLogout
 } from "@tabler/icons-react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
@@ -79,10 +78,6 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <IconUserCircle />
-              Account
-            </DropdownMenuItem>
             <DropdownMenuItem onClick={handleLogout}>
               <IconLogout />
               Log out

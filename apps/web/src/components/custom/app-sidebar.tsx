@@ -6,6 +6,7 @@ import {
 } from "@tabler/icons-react"
 import * as React from "react"
 
+import { AccountBalanceCard } from "@/components/custom/account-balance-card"
 import { NavMain } from "@/components/custom/nav-main"
 import { NavUser } from "@/components/custom/nav-user"
 import {
@@ -57,8 +58,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       />
 
       <SidebarContent>
+        <AccountBalanceCard />
         <CreateTransactionModal />
-        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
         {isLoading ? (
