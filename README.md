@@ -1,127 +1,143 @@
 # Woovi Bank
 
-## 📋 Sobre o Projeto
+## 📋 About the Project
 
-O Woovi Playground é uma plataforma bancária que permite aos usuários gerenciar suas contas, realizar transações e acompanhar seu histórico financeiro através de uma interface intuitiva e moderna. A aplicação foi construída seguindo as melhores práticas de desenvolvimento, utilizando uma arquitetura de monorepo para facilitar a manutenção e escalabilidade.
+Woovi Playground is a banking platform that allows users to manage their accounts, perform transactions, and track their financial history through an intuitive and modern interface. The application was built following the best development practices, utilizing a monorepo architecture to facilitate maintenance and scalability.
 
-TLDR: desafio técnico da woovi 🤣
+TLDR: Woovi technical challenge 🤣
 
-## ✨ Funcionalidades
+## ✨ Features
 
-### Autenticação e Conta
-- **Registro de usuário** com validação de email
-- **Login** por CPF ou email
-- **Confirmação de conta** via email
-- **Gerenciamento de sessão** com tokens JWT
+### Authentication and Account
+- **User registration** with email validation
+- **Login** via CPF or email
+- **Account confirmation** via email
+- **Session management** with JWT tokens
 
-### Transações
-- **Criação de transações** entre contas
-- **Chave de idempotência** para garantir transações únicas
-- **Histórico completo** de transações
-- **Visualização de saldo** em tempo real
+### Transactions
+- **Transaction creation** between accounts
+- **Idempotency key** to ensure unique transactions
+- **Complete transaction history**
+- **Real-time balance** display
 
 ### Dashboard
-- **Gráficos interativos** de transações
-- **Tabela de transações** com filtros e ordenação
-- **Card de saldo total** na sidebar
-- **Interface responsiva** e moderna
+- **Interactive charts** for transactions
+- **Transaction table** with filters and sorting
+- **Total balance card** in the sidebar
+- **Responsive and modern interface**
 
-## 🛠️ Tecnologias
+## 🛠️ Technologies
 
 ### Frontend
-- **Next.js 15** - Framework React com App Router
-- **React 19** - Biblioteca UI
-- **React Relay** - Gerenciamento de estado GraphQL
-- **Tailwind CSS 4** - Estilização
-- **Radix UI** - Componentes acessíveis
-- **Recharts** - Gráficos e visualizações
-- **TypeScript** - Tipagem estática
+- **Next.js 15** - React framework with App Router
+- **React 19** - UI library
+- **React Relay** - GraphQL state management
+- **Tailwind CSS 4** - Styling
+- **Radix UI** - Accessible components
+- **Recharts** - Charts and data visualization
+- **TypeScript** - Static typing
 
 ### Backend
-- **Koa.js** - Framework web Node.js
+- **Koa.js** - Node.js web framework
 - **GraphQL** - API query language
-- **MongoDB** - Banco de dados NoSQL
-- **Mongoose** - ODM para MongoDB
+- **MongoDB** - NoSQL database
+- **Mongoose** - ODM for MongoDB
 - **GraphQL Subscriptions** - Real-time updates
-- **JWT** - Autenticação
+- **JWT** - Authentication
 
-### Infraestrutura
-- **Turbo** - Build system para monorepo
-- **Docker** - Containerização
-- **pnpm** - Gerenciador de pacotes
+### Infrastructure
+- **Turbo** - Build system for monorepo
+- **Docker** - Containerization
+- **pnpm** - Package manager
 
-## 🚀 Como Executar
+## 🚀 How to Run
 
-### Pré-requisitos
+### Prerequisites
 
 - Node.js 20+
 - pnpm 10.0.0
-- Docker e Docker Compose (opcional)
+- Docker and Docker Compose (optional)
 
-### Instalação
+### Installation
 
-1. Clone o repositório:
+1. Clone the repository:
 ```bash
 git clone <repository-url>
 cd woovi-playground
-```
+````
 
-2. Instale as dependências:
+2.  Install dependencies:
+
+<!-- end list -->
+
 ```bash
 pnpm install
 ```
 
-3. Configure as variáveis de ambiente:
+3.  Configure environment variables:
+
+<!-- end list -->
+
 ```bash
 cd apps/server
 pnpm config:local
-# Edite o arquivo .env com suas configurações
+# Edit the .env file with your settings
 ```
 
-4. Inicie o banco de dados (Docker):
+4.  Start the database (Docker):
+
+<!-- end list -->
+
 ```bash
 pnpm compose:up
 ```
 
-5. Execute o servidor de desenvolvimento:
+5.  Run the development server:
+
+<!-- end list -->
+
 ```bash
 pnpm dev
 ```
 
-A aplicação estará disponível em:
-- Frontend: http://localhost:3000
-- Backend GraphQL: http://localhost:4000/graphql
+The application will be available at:
+
+  - Frontend: http://localhost:3000
+  - GraphQL Backend: http://localhost:4000/graphql
 
 ## 📸 Screenshots
 
 <img width="1300" height="736" alt="Screenshot from 2025-12-11 04-40-13" src="https://github.com/user-attachments/assets/71a4f20f-9300-41d6-a8ca-254e3d81bf16" />
 <img width="1300" height="736" alt="Screenshot from 2025-12-11 04-38-42" src="https://github.com/user-attachments/assets/a60bf3c7-b0dd-49b4-8e4f-55a01e71e629" />
 
-## 🧪 Scripts Disponíveis
+## 🧪 Available Scripts
 
-- `pnpm dev` - Inicia o servidor de desenvolvimento
-- `pnpm build` - Build de produção
-- `pnpm lint` - Executa o linter
-- `pnpm format` - Formata o código com Prettier
-- `pnpm relay` - Compila os arquivos Relay
-- `pnpm schema` - Atualiza o schema GraphQL
-- `pnpm compose:up` - Inicia os containers Docker
-- `pnpm compose:down` - Para os containers Docker
+  - `pnpm dev` - Starts the development server
+  - `pnpm build` - Production build
+  - `pnpm lint` - Runs the linter
+  - `pnpm format` - Formats code with Prettier
+  - `pnpm relay` - Compiles Relay files
+  - `pnpm schema` - Updates the GraphQL schema
+  - `pnpm compose:up` - Starts Docker containers
+  - `pnpm compose:down` - Stops Docker containers
 
-## 🔐 Autenticação
+## 🔐 Authentication
 
-A aplicação utiliza JWT para autenticação. Após o login, o token é armazenado em cookies HTTP-only para segurança.
+The application uses JWT for authentication. After logging in, the token is stored in HTTP-only cookies for security.
 
 ## 📊 GraphQL API
 
-A API GraphQL oferece as seguintes operações:
+The GraphQL API offers the following operations:
 
 ### Queries
-- `me` - Retorna informações do usuário autenticado
-- `transactions` - Lista todas as transações do usuário
+
+  - `me` - Returns authenticated user information
+  - `transactions` - Lists all user transactions
 
 ### Mutations
-- `LoginMutation` - Autenticação do usuário
-- `RegisterMutation` - Registro de novo usuário
-- `CreateTransactionMutation` - Criação de transação
-- `CreateIdempotencyKeyMutation` - Geração de chave de idempotência
+
+  - `LoginMutation` - User authentication
+  - `RegisterMutation` - New user registration
+  - `CreateTransactionMutation` - Transaction creation
+  - `CreateIdempotencyKeyMutation` - Idempotency key generation
+
